@@ -1,6 +1,8 @@
 reads2trees
 ===========
 
+NOTE 1/5/2015 - realized a number of scripts are hard coded to expect your reference sequences are exons, and named like so: something_1_5, where "something" is just some text string, "1" indicates the gene, and "5" indicates the exon number. This needs to be modified (I plan to do this in the near future, but it should be fairly easy to change the scripts affected: makeGenes.pl).
+
 Pipeline for analysis of sequence capture
 Please see the manual (as of 12/31/14, in a somewhat beta phase) for detailed how-to. 
 Individuals scripts may need to be modified to work on your computing cluster. These were designed for a linux cluster using SGE commands (qsub, qdel, etc). Furthermore, computing queue names are hard wired and YOU WILL NEED TO MODIFY THEM. For example, a script might say "qsub -q rcc-30d...", which is a queue on the UGA cluster. You will need to change this to reflect a queue on your own cluster.
