@@ -1,9 +1,7 @@
-#!/usr/bin/perl
-#Karolina Heyduk - heyduk@uga.edu - 2014
-#modified from script by Raj Ayyampalayam
+#!/usr/bin/perl -w
 
 use strict;
-my @infiles = glob("*.blastout");
+my @infiles = glob("*.out");
 my $count = $ARGV[0];
 
 foreach my $infile (@infiles) {

@@ -4,6 +4,7 @@
 #Modified from script by Alex Harkess
 
 use strict;
+use warnings;
 use Bio::SeqIO;
 use Cwd;
 
@@ -14,7 +15,7 @@ my $wd = getcwd;
 
 #get list of IDs from the blastout files
 foreach my $blastfile (@blastfiles) {
-	my $divider = ".";
+	my $divider = "_";
 	my $position = index($blastfile, $divider);
 	my $id = substr($blastfile, 0, $position);
 	push (@ids, $id);
@@ -23,8 +24,8 @@ foreach my $blastfile (@blastfiles) {
 #now look through all the libraries to pull out matches and rename them
 foreach my $id (@ids) {
 	my %seqs;
-	chdir("$dir/");
-	my $fasta = "$id.cat.fasta.cap.contigs";
+	chdir("$dir/$id/trinity_out_dir");
+	my $fasta = "Trinity.fasta.$id.cap3";
 	my $io_obj = Bio::SeqIO->new(-file => $fasta, -format => 'fasta');
 	while (my $seqobj = $io_obj -> next_seq) {
 		my $id = $seqobj -> id();
@@ -34,7 +35,7 @@ foreach my $id (@ids) {
 	chdir("$wd");
 	
 open OUT, ">$id.targets.fasta";
-open BLAST, "<$id.cat.blastout.top"; #assumes you have not deviated from the previous scripts (BLAST, gethits)
+open BLAST, "<$id\_target.out.top"; #assumes you have not deviated from the previous scripts (BLAST, gethits)
 while (<BLAST>) {
 	chomp;    
 	my ($qid, $sid, undef, undef, undef, undef, $qstart, $qend, $sstart, $send, undef, undef) = split /\s+/;

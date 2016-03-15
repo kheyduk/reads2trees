@@ -4,8 +4,8 @@ use Cwd;
 use Data::Dumper;
 #Karolina Heyduk - heyduk@uga.edu - 2014
 
-my $dir = $ARGV[0]; #FULL PATH to trinity folder 
-my $reads = $ARGV[1]; #FULL PATH to clean reads directory
+my $dir = $ARGV[0]; #FULL PATH to trinity folder, include final "/"
+my $reads = $ARGV[1]; #FULL PATH to clean reads directory, include final "/"
 my $CPU = $ARGV[2];
 my $list = $ARGV[3]; #list of libIDs, should be the prefix of trimmomatic outputs
 my @files = glob("*fastq"); #push files with correct ending into an array
