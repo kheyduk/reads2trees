@@ -1,9 +1,8 @@
 #!/usr/bin/perl
 use strict;
-#Karolina Heyduk - heyduk@uga.edu - 2014
-#modified from script by Michael McKain
+use warnings;
 
-my @infiles = glob("*.targets.fasta.norep"); #keep this the same if you previously ran batchRemovedups.pl
+my @infiles = glob("*.norep");
 
 foreach my $infile (@infiles) {
 	my $divider = ".";
@@ -12,31 +11,27 @@ foreach my $infile (@infiles) {
 	open OUT, ">>$libid.genes";
 	open IN, "<$infile";
 
-	my ($contig, $ID, $ID2, $exon);
+	my ($contig, $ID, $exon);
 	my %seqs;
 
 	while(<IN>){
 		chomp;
 		if(/>/){
-			($ID, $exon) = split /\_/;
-			if ($exon =~ "null") {
-			$exon = 0;
-			}
-			else {
-			next;
-			}
+			($contig, $ID, $exon) = split /\_/;
 		}
 		else{
-			$seqs{$ID}{$exon}.=$_;
+			$seqs{$contig}{$ID}{$exon}.=$_;
 		}
 	}
-foreach my $ID (sort keys %seqs){
-	my $seq;
-	for my $exon (sort {$a<=>$b} keys %{$seqs{$ID}}){
-			$seq.=$seqs{$ID}{$exon};
-		}
-		print OUT ">$ID\_$libid\n$seq\n";
+foreach my $contig (sort keys %seqs) {
+	for my $ID (sort keys %{$seqs{$contig}}){
+			my $seq;
+			for my $exon (sort {$a<=>$b} keys %{$seqs{$contig}{$ID}}){
+				$seq.=$seqs{$contig}{$ID}{$exon};
+			}
+			print OUT "$contig\_$ID\_$libid\n$seq\n";
 	}
+}
 close OUT;
 close IN;
 }
